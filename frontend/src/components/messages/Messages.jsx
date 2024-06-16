@@ -1,11 +1,12 @@
-import React from 'react'
-import Message from './Message'
+import { useEffect, useRef } from "react";
 import useGetMessages from "../../hooks/useGetMessages";
 import MessageSkeleton from "../skeletons/MessageSkeleton";
-import { useEffect, useRef } from "react";
+import Message from "./Message";
+import useListenMessages from "../../hooks/useListenMessages";
 
 const Messages = () => {
 	const { messages, loading } = useGetMessages();
+	useListenMessages();
 	const lastMessageRef = useRef();
 
 	useEffect(() => {
@@ -13,9 +14,9 @@ const Messages = () => {
 			lastMessageRef.current?.scrollIntoView({ behavior: "smooth" });
 		}, 100);
 	}, [messages]);
-	
-  return (
-	<div className='px-4 flex-1 overflow-auto'>
+
+	return (
+		<div className='px-4 flex-1 overflow-auto'>
 			{!loading &&
 				messages.length > 0 &&
 				messages.map((message) => (
@@ -29,7 +30,6 @@ const Messages = () => {
 				<p className='text-center'>Send a message to start the conversation</p>
 			)}
 		</div>
-  )
-}
-
-export default Messages
+	);
+};
+export default Messages;
